@@ -7,6 +7,8 @@ Desafio Compass UOL 02
 
 2 - Subir RDS ✅
 
-3 - Fazendo Script 🕑
+3 - Fazendo Script ✅
 
-<b>OBS:</b> Vou discorrer e adicionais mais detalhes posteriormente, pois ainda estou testando e desenvolvendo o Script funcional
+4 - Load Balancer 🕑
+
+<b>OBS:</b> Vou discorrer e adicionais mais detalhes posteriormente.
