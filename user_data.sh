@@ -6,11 +6,11 @@ yum install -y docker
 systemctl start docker
 systemctl enable docker
 
-DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-mkdir -p $DOCKER_CONFIG/cli-plugins
-curl -SL https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+mkdir -p /usr/lib/docker/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
+chmod +x /usr/lib/docker/cli-plugins/docker-compose
 
-chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+usermod -aG docker ec2-user
 
 mkdir -p /home/ec2-user/wordpress
 cd /home/ec2-user/wordpress
@@ -24,10 +24,10 @@ services:
     ports:
       - 8080:80
     environment:
-      WORDPRESS_DB_HOST: db-desafio02.cby088cym3id.us-east-1.rds.amazonaws.com
-      WORDPRESS_DB_USER: admin
-      WORDPRESS_DB_PASSWORD: 49561291
-      WORDPRESS_DB_NAME: db-desafio02
+      WORDPRESS_DB_HOST: <RDS_ENDPOINT>
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
     volumes:
       - wp-data:/var/www/html
 
@@ -35,4 +35,6 @@ volumes:
   wp-data:
 EOL
 
-docker compose up -d
+chown -R ec2-user:ec2-user /home/ec2-user/wordpress
+
+docker compose -f /home/ec2-user/wordpress/docker-compose.yml up -d
