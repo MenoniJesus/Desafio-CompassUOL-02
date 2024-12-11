@@ -19,6 +19,7 @@ curl -SL https://github.com/docker/compose/releases/download/v2.30.3/docker-comp
 chmod +x /usr/lib/docker/cli-plugins/docker-compose
 
 usermod -aG docker ec2-user
+newgrp docker
 
 mkdir -p /home/ec2-user/wordpress
 cd /home/ec2-user/wordpress
