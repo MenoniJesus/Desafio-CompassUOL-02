@@ -18,9 +18,6 @@ mkdir -p /usr/lib/docker/cli-plugins
 curl -SL https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
 chmod +x /usr/lib/docker/cli-plugins/docker-compose
 
-usermod -aG docker ec2-user
-newgrp docker
-
 mkdir -p /home/ec2-user/wordpress
 cd /home/ec2-user/wordpress
 
@@ -44,5 +41,7 @@ volumes:
   wp-data:
 EOL
 
+usermod -aG docker ec2-user
+newgrp docker
 chown -R ec2-user:ec2-user /home/ec2-user/wordpress
 docker compose -f /home/ec2-user/wordpress/docker-compose.yml up -d
