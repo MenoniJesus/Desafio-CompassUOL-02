@@ -9,7 +9,7 @@ systemctl enable docker
 
 yum install mariadb -y
 
-mysql -h dbdesafio02.cby088cym3id.us-east-1.rds.amazonaws.com -P 3306 -u admin -ppKYuW9kbnWW04RDZZ3zp <<EOF
+mysql -h dbdesafio02.cby088cym3id.us-east-1.rds.amazonaws.com -P 3306 -u admin -pPhElPcVvWvAQPBAlOSVd <<EOF
 create database dbDesafio02;
 exit;
 EOF
@@ -32,10 +32,10 @@ services:
     environment:
       WORDPRESS_DB_HOST: dbdesafio02.cby088cym3id.us-east-1.rds.amazonaws.com
       WORDPRESS_DB_USER: admin
-      WORDPRESS_DB_PASSWORD: pKYuW9kbnWW04RDZZ3zp
+      WORDPRESS_DB_PASSWORD: PhElPcVvWvAQPBAlOSVd
       WORDPRESS_DB_NAME: dbDesafio02
     volumes:
-      - wp-data:/var/www/html
+      - wp-data:/var/www/htmlno 
 
 volumes:
   wp-data:
