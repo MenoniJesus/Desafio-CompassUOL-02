@@ -23,7 +23,7 @@ Conta AWS com permissões suficientes para
 - Configurar RDS ✅
 - Escrever Script ✅
 - Configurar Load Balancer 🕑
-- Configurar ELS ❌
+- Configurar ELS 🕑
 - Configurar Rede Privada ❌
 
 <h2>Situação Atual:</h2>
