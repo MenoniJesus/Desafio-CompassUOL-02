@@ -9,7 +9,7 @@ systemctl start docker
 systemctl enable docker
 
 mkdir -p /mnt/efs
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <DNS_NAME>:/ /mnt/efs
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0005f10654a4e26d0.efs.us-east-1.amazonaws.com:/ /mnt/efs
 chown ec2-user:ec2-user /mnt/efs
 
 mkdir -p /usr/lib/docker/cli-plugins
@@ -25,25 +25,23 @@ version: '3.8'
 services:
   wordpress:
     image: wordpress:latest
+    container_name: wordpress-app
     ports:
       - 80:80
     environment:
-      WORDPRESS_DB_HOST: <WORDPRESS_DB_HOST>
-      WORDPRESS_DB_USER: <WORDPRESS_DB_USER>
-      WORDPRESS_DB_PASSWORD: <WORDPRESS_DB_PASSWORD>
-      WORDPRESS_DB_NAME: <WORDPRESS_DB_NAME>
+      WORDPRESS_DB_HOST: dbdesafio02.cby088cym3id.us-east-1.rds.amazonaws.com
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: 4956129lm
+      WORDPRESS_DB_NAME: dbDesafio02
     volumes:
       - wp-data:/var/www/html
       - /mnt/efs:/var/www/html/
 
 volumes:
-  wp-data:
+  wp-data
 EOL
 
-docker compose -f /home/ec2-user/wordpress/docker-compose.yml up -d
-
-docker exec -it wordpress-app bash
-cat <<EOF > healthcheck.php
+cat <<EOF > /mnt/efs/healthcheck.php
 <?php
 http_response_code(200);
 header('Content-Type: application/json');
@@ -52,6 +50,6 @@ exit;
 ?>
 EOF
 
-usermod -aG docker ec2-user
-newgrp docker
-chown -R ec2-user:ec2-user /home/ec2-user/wordpress
+chown -R ec2-user:ec2-user /mnt/efs
+
+docker compose -f /home/ec2-user/wordpress/docker-compose.yml up -d
