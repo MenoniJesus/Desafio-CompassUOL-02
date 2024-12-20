@@ -9,17 +9,17 @@ systemctl start docker
 systemctl enable docker
 
 mkdir -p /mnt/efs
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0d2ad8a428430e23b.efs.us-east-1.amazonaws.com:/ /mnt/efs
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <DNS_NAME>:/ /mnt/efs
 chown ec2-user:ec2-user /mnt/efs
 
 mkdir -p /home/ec2-user/wordpress
 cd /home/ec2-user/wordpress
 
 cat <<EOL > .env
-WORDPRESS_DB_HOST=dbdesafio02.cby088cym3id.us-east-1.rds.amazonaws.com
-WORDPRESS_DB_USER=admin
-WORDPRESS_DB_PASSWORD=4956129lm
-WORDPRESS_DB_NAME=dbDesafio02
+WORDPRESS_DB_HOST=<WORDPRESS_DB_HOST>
+WORDPRESS_DB_USER=<WORDPRESS_DB_USER>
+WORDPRESS_DB_PASSWORD=<WORDPRESS_DB_PASSWORD>
+WORDPRESS_DB_NAME=<WORDPRESS_DB_NAME>
 EOL
 
 cat <<EOL > Dockerfile
