@@ -25,18 +25,21 @@ ENV WORDPRESS_DB_NAME=<WORDPRESS_DB_NAME>
 
 EXPOSE 80
 
-RUN echo "<?php \
-http_response_code(200); \
-header('Content-Type: application/json'); \
-echo json_encode(['status' => 'OK', 'message' => 'Health check passed']); \
-?>" > /var/www/html/healthcheck.php
-
 CMD ["apache2-foreground"]
 EOL
 
-docker build --build-arg WORDPRESS_DB_HOST --build-arg WORDPRESS_DB_USER --build-arg WORDPRESS_DB_PASSWORD --build-arg WORDPRESS_DB_NAME -t wordpress-custom .
-
+docker build -t wordpress-custom .
 docker run -d -p 80:80 --name wordpress-app -v /mnt/efs:/var/www/html/ wordpress-custom
+
+docker exec -it wordpress-app bash
+cat <<EOF > healthcheck.php
+<?php
+http_response_code(200);
+header('Content-Type: application/json');
+echo json_encode(["status" => "OK", "message" => "Health check passed"]);
+exit;
+?>
+EOF
 
 usermod -aG docker ec2-user
 chown -R ec2-user:ec2-user /home/ec2-user/wordpress
