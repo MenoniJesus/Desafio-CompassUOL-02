@@ -19,13 +19,6 @@ chmod +x /usr/lib/docker/cli-plugins/docker-compose
 mkdir -p /home/ec2-user/wordpress
 cd /home/ec2-user/wordpress
 
-cat <<EOL > .env
-WORDPRESS_DB_HOST=<WORDPRESS_DB_HOST>
-WORDPRESS_DB_USER=<WORDPRESS_DB_USER>
-WORDPRESS_DB_PASSWORD=<WORDPRESS_DB_PASSWORD>
-WORDPRESS_DB_NAME=<WORDPRESS_DB_NAME>
-EOL
-
 cat <<EOL > docker-compose.yml
 version: '3.8'
 
@@ -35,10 +28,10 @@ services:
     ports:
       - 80:80
     environment:
-      WORDPRESS_DB_HOST: \${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_USER: \${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: \${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: \${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_HOST: <WORDPRESS_DB_HOST>
+      WORDPRESS_DB_USER: <WORDPRESS_DB_USER>
+      WORDPRESS_DB_PASSWORD: <WORDPRESS_DB_PASSWORD>
+      WORDPRESS_DB_NAME: <WORDPRESS_DB_NAME>
     volumes:
       - wp-data:/var/www/html
       - /mnt/efs:/var/www/html/
@@ -48,6 +41,16 @@ volumes:
 EOL
 
 docker compose -f /home/ec2-user/wordpress/docker-compose.yml up -d
+
+docker exec -it wordpress-app bash
+cat <<EOF > healthcheck.php
+<?php
+http_response_code(200);
+header('Content-Type: application/json');
+echo json_encode(["status" => "OK", "message" => "Health check passed"]);
+exit;
+?>
+EOF
 
 usermod -aG docker ec2-user
 newgrp docker
