@@ -33,122 +33,177 @@ Conta AWS com permissões suficientes para
 5. Subir EC2 pública para Bastion Host (opcional);
 6. Criar RDS;
 7. Criar EFS;
-8. Criar Template/Modelo da EC2;
-9. Criar Load Balancer;
-10. Criar Auto Scaling.
+8. Criar Load Balancer;
+9. Criar Auto Scaling;
+10. Criar Template/Modelo da EC2;
+11. Teste de Funcionamento.
 
 <h2> </h2>
-  
+
 <h3>1. Criar VPC:</h3>
+
+Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insira o nome que quiser, caso queira modifciar fica a seu criterio, se baseie na imagem a baixo.
+
+![image](https://github.com/user-attachments/assets/00a4a631-f1cb-44cc-accc-1390abaf5cec)
 
 <b>OBS:</b> Caso deseje adicionar mais zonas de disponibilidade ou subredes ai fica a seu criterio, mas para esse laboratório já temos o necessário.
 
 <h3>2. Criar Gatewat NAT:</h3>
 
-2.1 Mantendo ainda na aba de VPC, na lateral esquerda vai ter a opção Gateway Nat, clique nela e depois em "Criar Gateway NAT".
+Ainda na "Painel da VPC" na lateral esquerda clique em "Gateways NAT" -> "Criar gateway NAT" -> Insira um nome, selecione a sub-rede publica, mantenha a opção público no "Tipo de conectividade" e para finalizar clique em "Alocar IP elástico".
+
+![image](https://github.com/user-attachments/assets/bae7dba8-9df8-4c5e-b168-74afac87b53c)
+
 
 <h3>3. Editar Tabela de Rotas:</h3>
+
+Também na aba "Painel da VPC" na lateral esquerda clique em "Tabelas de Rotas" -> Selecione uma rede privada, na parte inferior, clique onde está escrito "Rotas" -> "Editar Rotas" -> "Adicionar Rota", preencha conforme a imagem abaixo, primeiro retangulo é "0.0.0.0" depois "Gateway NAT" e em baixo o gateway criado anteriormente.
+
+![image](https://github.com/user-attachments/assets/0d47cf41-23aa-424b-84ad-8a1b492f1ff0)
 
 <b>OBS:</b> Lembrese de fazer isso na outra sub-rede privada também.
 
 <h3>4. Criar Security Groups:</h3>
 
-<h3>5. Subir EC2 pública para Bastion Host (opcional):</h3>
+Pesquise por Security groups -> "Criar grupo de segurança"
 
+- Primeiro decida se vai criar um Bastion Host ou não, caso opte por sim, siga normalmente, caso não pule o Security Group "BH" e siga com a criação dos demais, mas lembrese de mudar a questão da SSH na EC2.  
+- Outra observação, a sequencia para criar os security group sem problema é BH -> EC2 (mas sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída para ficar igual das imagens) -> EFS.  
+- Caso opte por não usar o BH, faça EC2 (sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída) -> EFS.  
+- Aqui fica seu criterio escolher o nome de cada Security Group e a descrição, porem selecione a VPC criada anteriormente.  
 
-VPC
+1. BH(Opcional):
+  - Regra Entrada:
 
-![image](https://github.com/user-attachments/assets/00a4a631-f1cb-44cc-accc-1390abaf5cec)
+![image](https://github.com/user-attachments/assets/1b2af0da-dc7d-4edc-a39c-7ae5d6be0df0)
 
+2. EC2:
+  - Regra Entrada:
+  
+![image](https://github.com/user-attachments/assets/50f9aaec-0e11-4a53-b340-5c8176df074f)
 
-NAT GATEWAY
+<b>OBS:</b> Caso não queira ter um Bastion Host, pode modificar quem tem acesso ao ssh a seu criterio.
 
-![image](https://github.com/user-attachments/assets/bae7dba8-9df8-4c5e-b168-74afac87b53c)
+  - Regra Saída:
 
+![image](https://github.com/user-attachments/assets/8540d4d1-4644-476d-bc8c-402eadd55d20)
 
-ROTAS
+3. RDS:
+  - Regra Entrada:
 
-![image](https://github.com/user-attachments/assets/839e3701-47c2-42d4-803f-5b8254444632)
+![image](https://github.com/user-attachments/assets/1562a03e-cd4f-4420-a11d-8311a2e69d2e)
 
+4. EFS:
+  - Regra Entrada: 
 
-Security Groups
+![image](https://github.com/user-attachments/assets/4139206c-549a-4b5d-8fe8-4690b9d15068)
 
-BH (Opcional)
+<h3>5. Subir EC2 pública para Bastion Host (Opcional):</h3>
 
-![image](https://github.com/user-attachments/assets/0e9248bb-e236-4a29-942b-e5485f353923)
+Pesquise EC2 -> "Executar Instância"
 
-EC2
+- Adicione as Tags necessarias;
+- Selecione a AMI: Amazon Linux 2;
+- Tipo de instância: t2.micro;
+- Selecione o seu par de chaves;
+- Configurações de rede:
+    - Rede: VPC criada;
+    - Sub-rede: uma subrede pública;
+    - Atribuir IP público automaticamente: Habilitar;
+    - Firewall (grupos de segurança): -> Selecionar grupo de segurança existente -> Selecione o "SG-BH-Desafio02";
 
-![image](https://github.com/user-attachments/assets/8f6c7388-5a37-4f53-bda9-cba8533d70d1)
+Pode criar sua instância que servira de Bastion Host já.
 
-![image](https://github.com/user-attachments/assets/5f4a15c9-657d-45d9-82ef-42b380312021)
+<h3>6. Criar EFS:</h3>
 
-OBS: Caso não queira ter um Bastion Host, pode modificar quem tem acesso ao ssh a seu criterio
-
-RDS
-
-![image](https://github.com/user-attachments/assets/912098dd-9b93-42be-adf3-10f05d84952a)
-
-EFS
-
-![image](https://github.com/user-attachments/assets/ff09a509-265b-43d6-8749-85af0c70e6ac)
-
-EFS - Config
+Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que desejar e pode avançar para proxima aba, deixe selecionado a VPC criada e nos "Grupos de segurança" selecione o criado para EFS "SG-EFS-Desafio02".
 
 ![image](https://github.com/user-attachments/assets/14b50540-aa61-41ea-818c-dee1d846ee35)
 
+Após terminar a criação do EFS, anote o endereço DNS gerado.
 
-RDS - Config
+<h3>7. Criar RDS:</h3>
 
-Seleciona MYSQL
-Modelos - Nivel Gratuito
-Configurações - Identificador da instância de banco de dados - de o nome que quiser
-              - Configurações de credenciais - Nome do usuário principal - admin
-                                             - Senha principal - decida uma senha a sua escolha 
-                                             - Confirmar a senha - repita a senha escolhida
-              - Configuração da instância - selecione o db.t3.micro      
-              - Conectividade - mantenha tudo padrão e privado, sem acesso ao publico, mesma vpc que vc criou e selecione o grupo de segurança que criou, deselecione o default se estiver marcado
-              - Configuração Adicional - Opções de banco de dados - Nome do banco de dados inicial - coloque o nome que desejar
+Pesquise por RDS, depois em "Criar banco de dados"
 
+- Opções do mecanismo: MySQL;
+- Modelos: Nível gratuito;
+- Configurações:
+  - Identificador do cluster de banco de dados: Atribua o nome que desejar;
+- Configurações de credenciais:
+  - Nome do usuário principal: admin;
+  - Senha principal: Escolha uma senha; 
+  - Confirmar senha principal: Repita a senha escolhida;
+- Configuração da instância: db.t3.micro;
+- Conectividade:
+  - Grupos de segurança da VPC existentes: Selecione o "SG-RDS-Desafio02";  
+    <b>OBS:</b> Caso o grupo "default" esteja selecionado, desselecione.
+- Configuração Adicional:
+  - Opções de banco de dados:
+    - Nome do banco de dados inicial: Coloque o nome que desejar;
 
-Load Balancer - Config
+Lembrese de guardar o nome de usuário, senha, o nome do banco de dados inicial e o endpoint que será gerado após a finalizar a criação do banco.
 
-Selecione o Classic Load Balancer
-Coloque o nome que desejar
-Selecione a VPC criada
-Selecione as zonas A a Z disponiveis - em subredes publicas
-Grupos de Segurança - mesmo da EC2
-Em verificação de integridade mude o /index.html para /healthcheck.php
+<h3>8. Criar Load Balancer:</h3>
 
+Pesquise por Load balancers -> "Criar load balancer" -> Classic Load Balancer - geração anterior -> "Criar"
 
-Auto Scaling - Config
+- Configuração básica:
+  - Nome do load balancer: Escolha o nome que desejar;
+- Mapeamento de rede:
+  - VPC: Selecione a VPC criada;
+  - Zonas de disponibilidade: Marque as zonas disponíveis e deixe nas subredes públicas;
+- Grupos de segurança: Selecione o mesmo grupo da EC2; 
+- Verificações de integridade:
+  - Caminho de ping: /healthcheck.php 
 
-Coloque um nome que desejar
-Clique em "Criar um modelo de execução", vc será redirecionado e podera criar um template de EC2 que será utilizado
-Apos ter criado o modelo de execução retorne aqui
-Selecione o modelo de execução criado, avance
-em Rede - selecione a VPC criada e as subrede privadas e pode avaçar
-na proxima aba selecione "Anexar a um balanceador de carga existente" - Anexar a um balanceador de carga existente - Escolher entre Classic Load Balancers - selecione o Load Balancer criado
-em Verificações de integridade selecione Ative as verificações de integridade do Elastic Load Balancing
-na proxima aba em Tamanho do grupo - capacidade desejada - coloque 2 ou o valor que desejar fica a seu criterio, pode avançar
-Adicionar notificações - opcional - Adicionar Notificação - personalize a notificação como desejar
-Adicione as Etiquetas/Tags
-Finalize a criação
-Teste de funcionamento <Link>
+<h3>9. Criar Auto Scaling:</h3>
 
+Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
 
-Modelo de Execução - Config
+- Escolher o modelo de execução:
+  - Nome: Fica a seu criterio o nome; 
+- Modelo de execução: Selecione o modelo de execução criado;  
+                      <b>OBS:</b> Caso não tenha um modelo de execução clique em "Criar um modelo de execução", va para a etapa 10 e depois volte aqui.  
+                      <b>OBS:</b> Clique no refresh do lado para poder atualizar e aparecer o modelo criado.  
+- Rede:
+  - VPC: Selecione a VPC criada;
+  - Zonas de disponibilidade e sub-redes: Selecione as sub-redes privadas (nesse caso as duas);
+- Balanceamento de carga -> Anexar a um balanceador de carga existente;
+- Anexar a um balanceador de carga existente -> Escolher entre Classic Load Balancers:
+  - Classic Load Balancers: Seleciona o Load Balancers criado;
+- Verificações de integridade: Marque a opção "Ative as verificações de integridade do Elastic Load Balancing";
+- Tamanho do grupo:
+  - Capacidade desejada: 2;
+- Adicionar notificações:
+  - Adicionar notificação:
+    - Criar um tópico: Personalize a notificação do jeito que achar melhor;
+- Adicionar etiquetas: Adicione as tags;       
 
-De um nome para o modelo e depois a descrição
-Selecione uma AMI - Amazon Linux 2
-Tipo de instância - t2.micro
-Par de Chaves - Selecione sua chave de segurança
-Configurações de Rede - selecione apenas o grupo de segurança da EC2
-Tag de Recurso (nos colocamos umas por ser obrigatoria...)
-Detalhes avançados - Dados do usuário (opcional) - selecione o script que achar melhor Dockerfile ou Docker Compose, lembrese que precisa fazer a modificação de nome, eu por padrão deixei o user_data.sh com o codigo que roda Dockerfile, mas caso queira fazer diferente fica a seu criterio, substitua os dados necessario, <DNS_NAME> <DB_WORDPRESS_HOST> <DB_WORDPRESS_USER> .... (para pegar o tal e tal e tal)
-pode voltar para a Etapa de Auto Scaling apos terminar de criar
+Finalize a criação. Va até a etapa 11 agora para testar e ver se está tudo funcionando.
 
+<h3>10. Criar Template/Modelo da EC2:</h3>
 
-Teste de Funcionamento
+- Nome e descrição do modelo de execução: Insira o nome e a descrição que desejar.
+- AMI: Amazon Linux 2;
+- Tipo de instância: t2.micro;
+- Par de chaves (login): Selecione seu par de chaves;
+- Configurações de rede:
+  - Selecionar grupo de segurança existente:
+    - Grupos de segurança: Selecione o grupo da EC2 "SG-EC2-Desafio02";
+- Tags de recurso: Preencha com as Tags necessárias;
+- Detalhes avançados:
+  - Dados do usuário (opcional): Coloque o aquivo user_data.sh aqui;
 
-Na aba de Load Balancer pegue o DNS e coloque no seu navegador de preferencia, certifiquese que esta no protocolo http e não no https. Pronto vc conseguiu
+Já pode voltar para etapa de Auto Scaling agora.
+ 
+<b>OBS:</b> Disponibilizei o arquivo user_data.sh no repositorio, deixei duas opções de script, uma sendo Dockerfile e outra Docker Compose, o presente no user_data.sh é o Dockerfile, caso queira a versão compose basta copiar o conteudo para dentro do arquivo user_data.sh e salvar, substituindo o script anterior.  
+<b>OBS:</b> Lembresse de substituir os valores <DNS_NAME>, <DB_WORDPRESS_HOST>, <DB_WORDPRESS_USER>, etc. Substitua pelos valores salvos durante a criação do EFS e do RDS.
+
+<h3>11. Teste de Funcionamento</h3>
+
+Volte na aba de Load Balancer e copie o DNS dele, após isso cole ele no seu navegador de preferencia, preste atenção na hora que colar o link no navegador, pois as vezes o navegador por padrão adiciona o "S" no http, virando protocolo HTTPS e no nosso caso uitlizamos HTTP, remova o "S" está tudo certo. Ao carregar a página, você deve se deparar com uma imagem como essa:
+
+![image](https://github.com/user-attachments/assets/0e64ac61-83f7-4932-8400-7a5eb205f944)
+
+Parabéns você conseguiu concluir esse labóratorio!!! 🎉
