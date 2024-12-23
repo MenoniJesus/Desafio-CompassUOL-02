@@ -30,17 +30,17 @@ Conta AWS com permissões suficientes para:
 2. [Criar Gateway NAT](#2-criar-gateway-nat)
 3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
 4. [Criar Security Groups](#4-criar-security-groups)
-5. [Subir EC2 publica para Bastion Host (Opcional)](#5-subir-ec2-publica-para-bastion-host)
-6. [Criar EFS](#6-criar-efs)
-7. [Criar RDS](#7-criar-rds)
+5. [Criar EFS](#5-criar-efs)
+6. [Criar RDS](#6-criar-rds)
+7. [Subir EC2 publica para Bastion Host (Opcional)](#7-subir-ec2-publica-para-bastion-host)
 8. [Criar Load Balancer](#8-criar-load-balancer)
 9. [Criar Auto Scaling](#9-criar-auto-scaling)
 10. [Criar Template da EC2](#10-criar-template-da-ec2)
 11. [Teste de Funcionamento](#11-teste-de-funcionamento)
 
-<h2> </h2>
+<h2></h2>
 
-<h3>1. Criar VPC:</h3>
+<h3>1. Criar VPC:</h3>                         [↩️](#etapas)
 
 Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insira o nome que quiser, caso queira modifciar fica a seu criterio, se baseie na imagem a baixo.
 
@@ -98,25 +98,7 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 
 ![image](https://github.com/user-attachments/assets/4139206c-549a-4b5d-8fe8-4690b9d15068)
 
-<h3>5. Subir EC2 publica para Bastion Host:</h3>
-
-### ⚠️ Etapa Opcional ⚠️
-
-Pesquise EC2 -> "Executar Instância"
-
-- Adicione as Tags necessarias;
-- Selecione a AMI: Amazon Linux 2;
-- Tipo de instância: t2.micro;
-- Selecione o seu par de chaves;
-- Configurações de rede:
-    - Rede: VPC criada;
-    - Sub-rede: uma subrede pública;
-    - Atribuir IP público automaticamente: Habilitar;
-    - Firewall (grupos de segurança): -> Selecionar grupo de segurança existente -> Selecione o "SG-BH-Desafio02";
-
-Pode criar sua instância que servira de Bastion Host já.
-
-<h3>6. Criar EFS:</h3>
+<h3>5. Criar EFS:</h3>
 
 Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que desejar e pode avançar para proxima aba, deixe selecionado a VPC criada e nos "Grupos de segurança" selecione o criado para EFS "SG-EFS-Desafio02".
 
@@ -124,7 +106,7 @@ Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que
 
 Após terminar a criação do EFS, anote o endereço DNS gerado.
 
-<h3>7. Criar RDS:</h3>
+<h3>6. Criar RDS:</h3>
 
 Pesquise por RDS, depois em "Criar banco de dados"
 
@@ -145,6 +127,24 @@ Pesquise por RDS, depois em "Criar banco de dados"
     - Nome do banco de dados inicial: Coloque o nome que desejar;
 
 Lembrese de guardar o nome de usuário, senha, o nome do banco de dados inicial e o endpoint que será gerado após a finalizar a criação do banco.
+
+<h3>7. Subir EC2 publica para Bastion Host:</h3>
+
+### ⚠️ Etapa Opcional ⚠️
+
+Pesquise EC2 -> "Executar Instância"
+
+- Adicione as Tags necessarias;
+- Selecione a AMI: Amazon Linux 2;
+- Tipo de instância: t2.micro;
+- Selecione o seu par de chaves;
+- Configurações de rede:
+    - Rede: VPC criada;
+    - Sub-rede: uma subrede pública;
+    - Atribuir IP público automaticamente: Habilitar;
+    - Firewall (grupos de segurança): -> Selecionar grupo de segurança existente -> Selecione o "SG-BH-Desafio02";
+
+Pode criar sua instância que servira de Bastion Host já.
 
 <h3>8. Criar Load Balancer:</h3>
 
