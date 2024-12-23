@@ -6,7 +6,6 @@ Este projeto tem como objetivo consolidar conhecimentos em DevSecOps utilizando 
 
 ![image](https://github.com/user-attachments/assets/d3735872-7f4d-478c-b33f-1ff1c0b160e8)
 
-
 <h2>Tecnologias usadas:</h2>
 
 - AWS
@@ -46,14 +45,14 @@ Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insir
 
 ![image](https://github.com/user-attachments/assets/00a4a631-f1cb-44cc-accc-1390abaf5cec)
 
-<b>OBS:</b> Caso deseje adicionar mais zonas de disponibilidade ou subredes ai fica a seu criterio, mas para esse laboratório já temos o necessário.
-
+> [!NOTE]
+> Caso deseje adicionar mais zonas de disponibilidade ou sub-redes ai fica a seu criterio, mas para esse laboratório já temos o necessário.
+ 
 <h3>2. Criar Gateway NAT:</h3>
 
 Ainda na "Painel da VPC" na lateral esquerda clique em "Gateways NAT" -> "Criar gateway NAT" -> Insira um nome, selecione a sub-rede publica, mantenha a opção público no "Tipo de conectividade" e para finalizar clique em "Alocar IP elástico".
 
 ![image](https://github.com/user-attachments/assets/bae7dba8-9df8-4c5e-b168-74afac87b53c)
-
 
 <h3>3. Editar Tabela de Rotas:</h3>
 
@@ -61,7 +60,8 @@ Também na aba "Painel da VPC" na lateral esquerda clique em "Tabelas de Rotas" 
 
 ![image](https://github.com/user-attachments/assets/0d47cf41-23aa-424b-84ad-8a1b492f1ff0)
 
-<b>OBS:</b> Lembrese de fazer isso na outra sub-rede privada também.
+> [!IMPORTANT]
+> Lembra-se de fazer isso na outra sub-rede privada também.
 
 <h3>4. Criar Security Groups:</h3>
 
@@ -72,7 +72,7 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 - Caso opte por não usar o BH, faça EC2 (sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída) -> EFS.  
 - Aqui fica seu criterio escolher o nome de cada Security Group e a descrição, porem selecione a VPC criada anteriormente.  
 
-1. BH(Opcional):
+1. BH ⚠️(Opcional)⚠️:
   - Regra Entrada:
 
 ![image](https://github.com/user-attachments/assets/1b2af0da-dc7d-4edc-a39c-7ae5d6be0df0)
@@ -82,7 +82,8 @@ Pesquise por Security groups -> "Criar grupo de segurança"
   
 ![image](https://github.com/user-attachments/assets/50f9aaec-0e11-4a53-b340-5c8176df074f)
 
-<b>OBS:</b> Caso não queira ter um Bastion Host, pode modificar quem tem acesso ao ssh a seu criterio.
+> [!NOTE]
+> Caso não queira ter um Bastion Host, pode modificar quem tem acesso ao ssh a seu criterio.
 
   - Regra Saída:
 
@@ -104,7 +105,8 @@ Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que
 
 ![image](https://github.com/user-attachments/assets/14b50540-aa61-41ea-818c-dee1d846ee35)
 
-Após terminar a criação do EFS, anote o endereço DNS gerado.
+> [!IMPORTANT]
+> Após terminar a criação do EFS, anote o endereço DNS gerado.
 
 <h3>6. Criar RDS:</h3>
 
@@ -126,7 +128,8 @@ Pesquise por RDS, depois em "Criar banco de dados"
   - Opções de banco de dados:
     - Nome do banco de dados inicial: Coloque o nome que desejar;
 
-Lembrese de guardar o nome de usuário, senha, o nome do banco de dados inicial e o endpoint que será gerado após a finalizar a criação do banco.
+> [!IMPORTANT]
+> Lembrese de guardar o nome de usuário, senha, o nome do banco de dados inicial e o endpoint que será gerado após a finalizar a criação do banco.
 
 <h3>7. Subir EC2 publica para Bastion Host:</h3>
 
@@ -165,9 +168,10 @@ Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
 
 - Escolher o modelo de execução:
   - Nome: Fica a seu criterio o nome; 
-- Modelo de execução: Selecione o modelo de execução criado;  
-                      <b>OBS:</b> Caso não tenha um modelo de execução clique em "Criar um modelo de execução", va para a etapa 10 e depois volte aqui.  
-                      <b>OBS:</b> Clique no refresh do lado para poder atualizar e aparecer o modelo criado.  
+- Modelo de execução: Selecione o modelo de execução criado;
+> [!NOTE]
+> Caso não tenha um modelo de execução clique em "Criar um modelo de execução", va para a [etapa 10](#10-criar-template-da-ec2) e depois volte aqui. 
+
 - Rede:
   - VPC: Selecione a VPC criada;
   - Zonas de disponibilidade e sub-redes: Selecione as sub-redes privadas (nesse caso as duas);
@@ -182,7 +186,7 @@ Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
     - Criar um tópico: Personalize a notificação do jeito que achar melhor;
 - Adicionar etiquetas: Adicione as tags;       
 
-Finalize a criação. Va até a etapa 11 agora para testar e ver se está tudo funcionando.
+Finalize a criação. Va até a [etapa 11](#11-teste-de-funcionamento) agora para testar e ver se está tudo funcionando.
 
 <h3>10. Criar Template da EC2:</h3>
 
@@ -197,10 +201,13 @@ Finalize a criação. Va até a etapa 11 agora para testar e ver se está tudo f
 - Detalhes avançados:
   - Dados do usuário (opcional): Coloque o aquivo user_data.sh aqui;
 
-Já pode voltar para etapa de Auto Scaling agora.
- 
-<b>OBS:</b> Disponibilizei o arquivo user_data.sh no repositorio, deixei duas opções de script, uma sendo Dockerfile e outra Docker Compose, o presente no user_data.sh é o Dockerfile, caso queira a versão compose basta copiar o conteudo para dentro do arquivo user_data.sh e salvar, substituindo o script anterior.  
-<b>OBS:</b> Lembresse de substituir os valores <DNS_NAME>, <DB_WORDPRESS_HOST>, <DB_WORDPRESS_USER>, etc. Substitua pelos valores salvos durante a criação do EFS e do RDS.
+Já pode voltar para etapa de [Auto Scaling](#9-criar-auto-scaling) agora.
+
+> [!WARNING]
+> Lembresse de substituir os valores <DNS_NAME>, <DB_WORDPRESS_HOST>, <DB_WORDPRESS_USER>, etc. Substitua pelos valores salvos durante a criação do EFS e do RDS.
+
+> [!TIP]
+> Disponibilizei o arquivo user_data.sh no repositorio, deixei duas opções de script, uma sendo Dockerfile e outra Docker Compose, o presente no user_data.sh é o Dockerfile, caso queira a versão Docker Compose basta copiar o conteudo para dentro do arquivo user_data.sh e salvar, substituindo o script anterior. 
 
 <h3>11. Teste de Funcionamento</h3>
 
