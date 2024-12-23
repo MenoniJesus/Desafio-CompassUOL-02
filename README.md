@@ -36,6 +36,7 @@ Conta AWS com permissões suficientes para:
 9. [Criar Auto Scaling](#9-criar-auto-scaling)
 10. [Criar Template da EC2](#10-criar-template-da-ec2)
 11. [Teste de Funcionamento](#11-teste-de-funcionamento)
+12. [Materiais de Apoio](#12-materiais-de-apoio)
 
 <h2></h2>
 
@@ -216,3 +217,12 @@ Volte na aba de Load Balancer e copie o DNS dele, após isso cole ele no seu nav
 ![image](https://github.com/user-attachments/assets/0e64ac61-83f7-4932-8400-7a5eb205f944)
 
 Parabéns você conseguiu concluir esse labóratorio!!! 🎉
+
+<h3>12. Materiais de Apoio:</h3>
+
+https://hub.docker.com/_/wordpress  
+https://gist.github.com/morvanabonin/862a973c330107540f28fab0f26181d8  
+https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/tutorial-ec2-rds-option3.html  
+https://www.youtube.com/watch?v=UIbZOjXAJ6U  
+https://www.youtube.com/watch?v=U6JB-DJRtOA  
+https://www.youtube.com/watch?v=lFTSs8UT_sA  
