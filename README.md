@@ -15,7 +15,7 @@ Este projeto tem como objetivo consolidar conhecimentos em DevSecOps utilizando 
 
 <h2>Requisitos:</h2>
 
-Conta AWS com permissões suficientes para
+Conta AWS com permissões suficientes para:
   
 - Criar VPC, Gateway Nat, Security Groups;
 - Criar instâncias EC2;
