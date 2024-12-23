@@ -30,12 +30,12 @@ Conta AWS com permissões suficientes para:
 2. [Criar Gateway NAT](#2-criar-gateway-nat)
 3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
 4. [Criar Security Groups](#4-criar-security-groups)
-5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-pública-para-bastion-host-(opcional))
+5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-publica-para-bastion-host-(opcional))
 6. [Criar RDS](#6-criar-rds)
 7. [Criar EFS](#7-criar-efs)
 8. [Criar Load Balancer](#8-criar-load-balancer)
 9. [Criar Auto Scaling](#9-criar-auto-scaling)
-10. [Criar Template/Modelo da EC2](#10-criar-template/modelo-da-ec2)
+10. [Criar Template da EC2](#10-criar-template-da-ec2)
 11. [Teste de Funcionamento](#11-teste-de-funcionamento)
 
 <h2> </h2>
@@ -182,7 +182,7 @@ Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
 
 Finalize a criação. Va até a etapa 11 agora para testar e ver se está tudo funcionando.
 
-<h3>10. Criar Template/Modelo da EC2:</h3>
+<h3>10. Criar Template da EC2:</h3>
 
 - Nome e descrição do modelo de execução: Insira o nome e a descrição que desejar.
 - AMI: Amazon Linux 2;
