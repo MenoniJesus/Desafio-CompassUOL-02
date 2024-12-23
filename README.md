@@ -30,9 +30,9 @@ Conta AWS com permissões suficientes para:
 2. [Criar Gateway NAT](#2-criar-gateway-nat)
 3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
 4. [Criar Security Groups](#4-criar-security-groups)
-5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-publica-para-bastion-host-(opcional))
-6. [Criar RDS](#6-criar-rds)
-7. [Criar EFS](#7-criar-efs)
+5. [Subir EC2 publica para Bastion Host (opcional)](#5-subir-ec2-publica-para-bastion-host-(opcional))
+6. [Criar EFS](#6-criar-efs)
+7. [Criar RDS](#7-criar-rds)
 8. [Criar Load Balancer](#8-criar-load-balancer)
 9. [Criar Auto Scaling](#9-criar-auto-scaling)
 10. [Criar Template da EC2](#10-criar-template-da-ec2)
@@ -98,7 +98,7 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 
 ![image](https://github.com/user-attachments/assets/4139206c-549a-4b5d-8fe8-4690b9d15068)
 
-<h3>5. Subir EC2 pública para Bastion Host (Opcional):</h3>
+<h3>5. Subir EC2 publica para Bastion Host (Opcional):</h3>
 
 Pesquise EC2 -> "Executar Instância"
 
