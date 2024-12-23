@@ -100,6 +100,8 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 
 <h3>5. Subir EC2 publica para Bastion Host:</h3>
 
+### ⚠️ Etapa Opcional ⚠️
+
 Pesquise EC2 -> "Executar Instância"
 
 - Adicione as Tags necessarias;
