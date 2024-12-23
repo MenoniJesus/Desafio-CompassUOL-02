@@ -27,10 +27,10 @@ Conta AWS com permissões suficientes para:
 <h2>Etapas:</h2>
 
 1. [Criar VPC](#1-criar-vpc)
-2. Criar Gateway NAT;
-3. Editar Tabela de Rotas;
-4. Criar Security Groups;
-5. Subir EC2 pública para Bastion Host (opcional);
+2. [Criar Gateway NAT](#2-criar-gateway-nat)
+3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
+4. [Criar Security Groups](#4-criar-security-groups)
+5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-pública-para-bastion-host)
 6. Criar RDS;
 7. Criar EFS;
 8. Criar Load Balancer;
@@ -39,8 +39,6 @@ Conta AWS com permissões suficientes para:
 11. Teste de Funcionamento.
 
 <h2> </h2>
-
-[1. Configuração da VPC](#1-configuração-da-vpc)
 
 <h3>1. Criar VPC</h3>
 
