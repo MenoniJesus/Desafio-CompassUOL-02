@@ -30,17 +30,17 @@ Conta AWS com permissões suficientes para:
 2. [Criar Gateway NAT](#2-criar-gateway-nat)
 3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
 4. [Criar Security Groups](#4-criar-security-groups)
-5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-pública-para-bastion-host)
-6. Criar RDS;
-7. Criar EFS;
-8. Criar Load Balancer;
-9. Criar Auto Scaling;
-10. Criar Template/Modelo da EC2;
-11. Teste de Funcionamento.
+5. [Subir EC2 pública para Bastion Host (opcional)](#5-subir-ec2-pública-para-bastion-host-(opcional))
+6. [Criar RDS](#6-criar-rds)
+7. [Criar EFS](#7-criar-efs)
+8. [Criar Load Balancer](#8-criar-load-balancer)
+9. [Criar Auto Scaling](#9-criar-auto-scaling)
+10. [Criar Template/Modelo da EC2](#10-criar-template/modelo-da-ec2)
+11. [Teste de Funcionamento](#11-teste-de-funcionamento)
 
 <h2> </h2>
 
-<h3>1. Criar VPC</h3>
+<h3>1. Criar VPC:</h3>
 
 Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insira o nome que quiser, caso queira modifciar fica a seu criterio, se baseie na imagem a baixo.
 
@@ -48,7 +48,7 @@ Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insir
 
 <b>OBS:</b> Caso deseje adicionar mais zonas de disponibilidade ou subredes ai fica a seu criterio, mas para esse laboratório já temos o necessário.
 
-<h3>2. Criar Gatewat NAT:</h3>
+<h3>2. Criar Gateway NAT:</h3>
 
 Ainda na "Painel da VPC" na lateral esquerda clique em "Gateways NAT" -> "Criar gateway NAT" -> Insira um nome, selecione a sub-rede publica, mantenha a opção público no "Tipo de conectividade" e para finalizar clique em "Alocar IP elástico".
 
