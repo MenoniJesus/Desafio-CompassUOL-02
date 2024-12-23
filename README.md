@@ -26,7 +26,7 @@ Conta AWS com permissões suficientes para:
 
 <h2>Etapas:</h2>
 
-1. Criar VPC;
+1. [Criar VPC](#1-criar-vpc)
 2. Criar Gateway NAT;
 3. Editar Tabela de Rotas;
 4. Criar Security Groups;
@@ -40,7 +40,9 @@ Conta AWS com permissões suficientes para:
 
 <h2> </h2>
 
-<h3>1. Criar VPC:</h3>
+[1. Configuração da VPC](#1-configuração-da-vpc)
+
+<h3>1. Criar VPC</h3>
 
 Pesquise por VPC -> Clique em "Criar VPC" -> Selecione "VPC e muito mais", insira o nome que quiser, caso queira modifciar fica a seu criterio, se baseie na imagem a baixo.
 
