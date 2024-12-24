@@ -32,9 +32,9 @@ Conta AWS com permissões suficientes para:
 5. [Criar EFS](#5-criar-efs)
 6. [Criar RDS](#6-criar-rds)
 7. [Subir EC2 publica para Bastion Host (Opcional)](#7-subir-ec2-publica-para-bastion-host)
-8. [Criar Load Balancer](#8-criar-load-balancer)
-9. [Criar Auto Scaling](#9-criar-auto-scaling)
-10. [Criar Template da EC2](#10-criar-template-da-ec2)
+8. [Criar Template da EC2](#8-criar-template-da-ec2)
+9. [Criar Load Balancer](#9-criar-load-balancer)
+10. [Criar Auto Scaling](#10-criar-auto-scaling)
 11. [Teste de Funcionamento](#11-teste-de-funcionamento)
 12. [Materiais de Apoio](#12-materiais-de-apoio)
 
@@ -68,37 +68,54 @@ Também na aba "Painel da VPC" na lateral esquerda clique em "Tabelas de Rotas" 
 
 Pesquise por Security groups -> "Criar grupo de segurança"
 
-- Primeiro decida se vai criar um Bastion Host ou não, caso opte por sim, siga normalmente, caso não pule o Security Group "BH" e siga com a criação dos demais, mas lembrese de mudar a questão da SSH na EC2.  
-- Outra observação, a sequencia para criar os security group sem problema é BH -> EC2 (mas sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída para ficar igual das imagens) -> EFS.  
-- Caso opte por não usar o BH, faça EC2 (sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída) -> EFS.  
-- Aqui fica seu criterio escolher o nome de cada Security Group e a descrição, porem selecione a VPC criada anteriormente.  
+- Decida se vai usar Bastion Host (BH):  
+  - Sim: Crie o BH e siga normalmente.  
+  - Não: Pule o Security Group "BH" e configure o acesso SSH diretamente na EC2.  
+
+- Sequência para criar Security Groups:  
+  - Com BH:  
+  BH → EC2 (sem alterar regras de saída) → RDS → EC2 (alterar regras de saída conforme imagens) → EFS.  
+  - Sem BH:  
+  EC2 (sem alterar regras de saída) → RDS → EC2 (alterar regras de saída conforme imagens) → EFS.  
+
+- Observações:  
+  - Escolha nomes e descrições conforme preferir.  
+  - Sempre associe os Security Groups à VPC criada anteriormente.  
+
 
 1. Bastion Host ⚠️(Opcional)⚠️:
   - Regra Entrada:
 
 ![image](https://github.com/user-attachments/assets/1b2af0da-dc7d-4edc-a39c-7ae5d6be0df0)
 
+Regra de Entrada SSH, que aponta para o grupo de segurança da EC2.
+
 2. EC2:
   - Regra Entrada:
   
 ![image](https://github.com/user-attachments/assets/50f9aaec-0e11-4a53-b340-5c8176df074f)
 
-> [!NOTE]
-> Caso não queira ter um Bastion Host, pode modificar quem tem acesso ao ssh a seu criterio.
+Regra de Entrada SSH, que aponta para o grupo de segurança do Bastion Host(BH).
 
   - Regra Saída:
 
 ![image](https://github.com/user-attachments/assets/8540d4d1-4644-476d-bc8c-402eadd55d20)
+
+Regra de Saída MYSQL/Aurora, que aponta para o grupo de segurança do RDS.
 
 3. RDS:
   - Regra Entrada:
 
 ![image](https://github.com/user-attachments/assets/1562a03e-cd4f-4420-a11d-8311a2e69d2e)
 
+Regra de Entrada MYSQL/Aurora, que aponta para o grupo de segurança da EC2.
+
 4. EFS:
   - Regra Entrada: 
 
 ![image](https://github.com/user-attachments/assets/4139206c-549a-4b5d-8fe8-4690b9d15068)
+
+Regra de Entrada NFS, que aponta para o grupo de segurança da EC2.
 
 <h3>5. Criar EFS:</h3>
 
@@ -111,7 +128,7 @@ Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que
 
 <h3>6. Criar RDS:</h3>
 
-Pesquise por RDS, depois em "Criar banco de dados"
+Pesquise por RDS, depois em "Criar banco de dados"  
 O banco que será usado já vai ser criado junto da criação do RDS, está na parte de configuração Adicional.
 
 - Opções do mecanismo: MySQL;
@@ -151,7 +168,28 @@ Pesquise EC2 -> "Executar Instância"
 
 Pode criar sua instância que servira de Bastion Host já.
 
-<h3>8. Criar Load Balancer:</h3>
+<h3>8. Criar Template da EC2:</h3>
+
+- Nome e descrição do modelo de execução: Insira o nome e a descrição que desejar.
+- AMI: Amazon Linux 2;
+- Tipo de instância: t2.micro;
+- Par de chaves (login): Selecione seu par de chaves;
+- Configurações de rede:
+  - Selecionar grupo de segurança existente:
+    - Grupos de segurança: Selecione o grupo da EC2 "SG-EC2-Desafio02";
+- Tags de recurso: Preencha com as Tags necessárias;
+- Detalhes avançados:
+  - Dados do usuário (opcional): Coloque o aquivo user_data.sh aqui;
+
+Já pode voltar para etapa de [Auto Scaling](#9-criar-auto-scaling) agora.
+
+> [!WARNING]
+> Lembresse de substituir os valores <DNS_NAME>, <DB_WORDPRESS_HOST>, <DB_WORDPRESS_USER>, etc. Substitua pelos valores salvos durante a criação do EFS e do RDS.
+
+> [!TIP]
+> Disponibilizei o arquivo user_data.sh no repositorio, deixei duas opções de script, uma sendo Dockerfile e outra Docker Compose, o presente no user_data.sh é o Dockerfile, caso queira a versão Docker Compose basta copiar o conteudo para dentro do arquivo user_data.sh e salvar, substituindo o script anterior. 
+
+<h3>9. Criar Load Balancer:</h3>
 
 Pesquise por Load balancers -> "Criar load balancer" -> Classic Load Balancer - geração anterior -> "Criar"
 
@@ -164,7 +202,7 @@ Pesquise por Load balancers -> "Criar load balancer" -> Classic Load Balancer - 
 - Verificações de integridade:
   - Caminho de ping: /healthcheck.php 
 
-<h3>9. Criar Auto Scaling:</h3>
+<h3>10. Criar Auto Scaling:</h3>
 
 Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
 
@@ -189,27 +227,6 @@ Pesquise por Auto Scaling groups -> "Criar grupo do Auto Scaling"
 - Adicionar etiquetas: Adicione as tags;       
 
 Finalize a criação. Va até a [etapa 11](#11-teste-de-funcionamento) agora para testar e ver se está tudo funcionando.
-
-<h3>10. Criar Template da EC2:</h3>
-
-- Nome e descrição do modelo de execução: Insira o nome e a descrição que desejar.
-- AMI: Amazon Linux 2;
-- Tipo de instância: t2.micro;
-- Par de chaves (login): Selecione seu par de chaves;
-- Configurações de rede:
-  - Selecionar grupo de segurança existente:
-    - Grupos de segurança: Selecione o grupo da EC2 "SG-EC2-Desafio02";
-- Tags de recurso: Preencha com as Tags necessárias;
-- Detalhes avançados:
-  - Dados do usuário (opcional): Coloque o aquivo user_data.sh aqui;
-
-Já pode voltar para etapa de [Auto Scaling](#9-criar-auto-scaling) agora.
-
-> [!WARNING]
-> Lembresse de substituir os valores <DNS_NAME>, <DB_WORDPRESS_HOST>, <DB_WORDPRESS_USER>, etc. Substitua pelos valores salvos durante a criação do EFS e do RDS.
-
-> [!TIP]
-> Disponibilizei o arquivo user_data.sh no repositorio, deixei duas opções de script, uma sendo Dockerfile e outra Docker Compose, o presente no user_data.sh é o Dockerfile, caso queira a versão Docker Compose basta copiar o conteudo para dentro do arquivo user_data.sh e salvar, substituindo o script anterior. 
 
 <h3>11. Teste de Funcionamento</h3>
 
