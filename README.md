@@ -73,7 +73,7 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 - Caso opte por não usar o BH, faça EC2 (sem mexer nas regras de saída) -> RDS -> EC2 (alterar as regras de saída) -> EFS.  
 - Aqui fica seu criterio escolher o nome de cada Security Group e a descrição, porem selecione a VPC criada anteriormente.  
 
-1. BH ⚠️(Opcional)⚠️:
+1. Bastion Host ⚠️(Opcional)⚠️:
   - Regra Entrada:
 
 ![image](https://github.com/user-attachments/assets/1b2af0da-dc7d-4edc-a39c-7ae5d6be0df0)
