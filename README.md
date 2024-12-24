@@ -27,7 +27,7 @@ Conta AWS com permissões suficientes para:
 
 1. [Criar VPC](#1-criar-vpc)
 2. [Criar Gateway NAT](#2-criar-gateway-nat)
-3. [Editar Tabela de Rotas](#3-editar-tabela-de-rotas)
+3. [Editar Tabela de Rotas das Sub-Redes](#3-editar-tabela-de-rotas-das-sub-redes)
 4. [Criar Security Groups](#4-criar-security-groups)
 5. [Criar EFS](#5-criar-efs)
 6. [Criar RDS](#6-criar-rds)
@@ -55,7 +55,7 @@ Ainda na "Painel da VPC" na lateral esquerda clique em "Gateways NAT" -> "Criar 
 
 ![image](https://github.com/user-attachments/assets/bae7dba8-9df8-4c5e-b168-74afac87b53c)
 
-<h3>3. Editar Tabela de Rotas:</h3>
+<h3>3. Editar Tabela de Rotas das Sub-Redes:</h3>
 
 Também na aba "Painel da VPC" na lateral esquerda clique em "Tabelas de Rotas" -> Selecione uma rede privada, na parte inferior, clique onde está escrito "Rotas" -> "Editar Rotas" -> "Adicionar Rota", preencha conforme a imagem abaixo, primeiro retangulo é "0.0.0.0" depois "Gateway NAT" e em baixo o gateway criado anteriormente.
 
@@ -104,7 +104,7 @@ Pesquise por Security groups -> "Criar grupo de segurança"
 
 Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que desejar e pode avançar para proxima aba, deixe selecionado a VPC criada e nos "Grupos de segurança" selecione o criado para EFS "SG-EFS-Desafio02".
 
-![image](https://github.com/user-attachments/assets/14b50540-aa61-41ea-818c-dee1d846ee35)
+![image](https://github.com/user-attachments/assets/fe73254a-5144-44cd-8f27-0ae8b9d45422)
 
 > [!IMPORTANT]
 > Após terminar a criação do EFS, anote o endereço DNS gerado.
@@ -112,6 +112,7 @@ Pesquise EFS -> "Criar sistema de arquivos" -> "Personalizar", insira o nome que
 <h3>6. Criar RDS:</h3>
 
 Pesquise por RDS, depois em "Criar banco de dados"
+O banco que será usado já vai ser criado junto da criação do RDS, está na parte de configuração Adicional.
 
 - Opções do mecanismo: MySQL;
 - Modelos: Nível gratuito;
@@ -212,7 +213,8 @@ Já pode voltar para etapa de [Auto Scaling](#9-criar-auto-scaling) agora.
 
 <h3>11. Teste de Funcionamento</h3>
 
-Volte na aba de Load Balancer e copie o DNS dele, após isso cole ele no seu navegador de preferencia, preste atenção na hora que colar o link no navegador, pois as vezes o navegador por padrão adiciona o "S" no http, virando protocolo HTTPS e no nosso caso uitlizamos HTTP, remova o "S" está tudo certo. Ao carregar a página, você deve se deparar com uma imagem como essa:
+Para finalizar o projeto, acesse a aba de Load Balancer e copie o DNS correspondente. Em seguida, cole o link no navegador de sua preferência. Atenção: ao colar o link, verifique se o navegador não adicionou automaticamente o "s" ao protocolo "http", transformando-o em "https". No nosso caso, utilizamos exclusivamente o protocolo HTTP. Se necessário, remova o "s" para garantir o funcionamento correto.  
+Ao carregar a página, você deverá visualizar uma imagem como esta:
 
 ![image](https://github.com/user-attachments/assets/0e64ac61-83f7-4932-8400-7a5eb205f944)
 
