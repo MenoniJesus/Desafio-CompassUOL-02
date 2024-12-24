@@ -170,6 +170,8 @@ Pode criar sua instância que servira de Bastion Host já.
 
 <h3>8. Criar Template da EC2:</h3>
 
+Pesquise por "Launch templates" -> "Criar modelo de execução"
+
 - Nome e descrição do modelo de execução: Insira o nome e a descrição que desejar.
 - AMI: Amazon Linux 2;
 - Tipo de instância: t2.micro;
